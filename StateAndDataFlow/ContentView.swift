@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var timer = TimeCounter()
-    @EnvironmentObject private var userManager: UserManager
+    @EnvironmentObject private var user: UserManager
     
     var body: some View {
         VStack {
-            Text("Hi, \(userManager.user.name)")
+            Text("Hi, \(user.name)")
                 .font(.largeTitle)
                 .padding(.top, 100)
             Text(timer.counter.formatted())
@@ -22,7 +22,7 @@ struct ContentView: View {
             Spacer()
             ButtonView(title: timer.buttonTitle, color: .red, action: timer.startTimer)
             Spacer()
-            ButtonView(title: "Log Out", color: .blue, action: { userManager.user.isRegister.toggle() })
+            ButtonView(title: "Log Out", color: .blue, action: { user.isRegister.toggle() })
                 .padding()
         }
     }

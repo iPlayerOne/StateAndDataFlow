@@ -14,9 +14,9 @@ struct RegisterView: View {
     var body: some View {
         VStack {
             HStack {
-                TextField("Enter your name", text: $user.user.name)
+                TextField("Enter your name", text: $user.name)
                     .multilineTextAlignment(.center)
-                Text(user.user.name.count.formatted())
+                Text(user.name.count.formatted())
                     .padding(.trailing)
                     .foregroundColor(user.isValidName ? .green : .red)
                 
@@ -32,10 +32,10 @@ struct RegisterView: View {
     }
     
     private func registerUser() {
-        if !user.user.name.isEmpty {
-            user.user.name = name
-            user.user.isRegister.toggle()
-            StorageManager.shared.save(user: user.user)
+        if !user.name.isEmpty {
+            user.name = name
+            user.isRegister.toggle()
+            StorageManager.shared.save(user: name)
         }
     }
 }

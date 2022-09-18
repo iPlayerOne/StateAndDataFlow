@@ -5,32 +5,37 @@
 //  Created by ikorobov on 17.09.2022.
 //
 
-import SwiftUI
+import Foundation
 
-class StorageManager: ObservableObject {
+class StorageManager {
+    
     static let shared = StorageManager()
     
     private let defaults = UserDefaults.standard
-    @AppStorage ("user") private var currentUser: Data?
+    private let userKey = "userName"
     
     private init() {}
     
-    func save(user: User) {
-        currentUser = try? JSONEncoder().encode(user)
+    func save(user: String) {
+        defaults.set(user, forKey: userKey)
     }
     
-//    func fetchUser() -> User {
-//        guard
-//            let user = try? JSONDecoder().decode(User.self, from: currentUser ?? )
-//        else {
-//            return User()
-//        }
-//        return user
-//    }
+    func fetchUser() -> String {
+        if let userName = defaults.string(forKey: userKey) {
+            return userName
+        }
+        return ""
+    }
     
-    func clear(userManager: UserManager) {
-        userManager.user.isRegister = false
-        userManager.user.name = ""
+    func deleteUser() {
+        defaults.removeObject(forKey: userKey)
+    }
+    
+    func isRegister() -> Bool {
+        if !fetchUser().isEmpty {
+            return true
+        }
+        return false
     }
     
 }

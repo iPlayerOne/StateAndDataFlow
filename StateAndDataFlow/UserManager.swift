@@ -8,18 +8,23 @@
 import Foundation
 
 class UserManager: ObservableObject {
-    @Published var user = User()
+    
+    @Published var isRegister = false
+    @Published var name = ""
+    
     var isValidName: Bool {
-        user.name.count >= 3
+        name.count >= 3
     }
-    init(){}
-    init (user: User) {
-        self.user = user
-    }
+    
+//    init(){}
+//
+//    init (user: User) {
+//        self.user = user
+//    }
     
 }
 
-struct User: Codable {
-    var name = ""
-    var isRegister = false
-}
+//struct User: Codable {
+//    var name = ""
+//    var isRegister = false
+//}
