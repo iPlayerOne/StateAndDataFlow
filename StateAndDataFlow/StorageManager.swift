@@ -6,36 +6,21 @@
 //
 
 import Foundation
+import SwiftUI
 
-class StorageManager {
+class StorageManager: ObservableObject {
     
-    static let shared = StorageManager()
-    
-    private let defaults = UserDefaults.standard
-    private let userKey = "userName"
-    
-    private init() {}
-    
-    func save(user: String) {
-        defaults.set(user, forKey: userKey)
-    }
-    
-    func fetchUser() -> String {
-        if let userName = defaults.string(forKey: userKey) {
-            return userName
+    let defaults = UserDefaults.standard
+        
+        func saveData(data: UserManager) {
+            defaults.set(data.isRegister, forKey: "register")
+            defaults.set(data.name, forKey: "username")
         }
-        return ""
-    }
-    
-    func deleteUser() {
-        defaults.removeObject(forKey: userKey)
-    }
-    
-    func isRegister() -> Bool {
-        if !fetchUser().isEmpty {
-            return true
+        
+        func fetchUser(data: UserManager) {
+            data.isRegister = defaults.value(forKey: "register") as? Bool ?? false
+            guard let value = defaults.value(forKey: "username") else {return}
+            data.name = value as? String ?? ""
         }
-        return false
-    }
     
 }

@@ -22,7 +22,7 @@ struct ContentView: View {
             Spacer()
             ButtonView(title: timer.buttonTitle, color: .red, action: timer.startTimer)
             Spacer()
-            ButtonView(title: "Log Out", color: .blue, action: { user.isRegister.toggle() })
+            ButtonView(title: "LogOut", color: .blue, action: { user.isRegister.toggle() })
                 .padding()
         }
     }
