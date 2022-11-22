@@ -8,37 +8,48 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @State private var name = ""
-    @EnvironmentObject private var user: UserManager
     
-    var isValidName: Bool {
-        name.count >= 3
-    }
+    @EnvironmentObject private var user: UserManager
     
     var body: some View {
         VStack {
-            HStack {
-                TextField("Enter your name", text: $name)
-                    .multilineTextAlignment(.center)
-                Text(name.count.formatted())
-                    .padding(.trailing)
-                    .foregroundColor(isValidName ? .green : .red)
-                
-            }
+            UserNameTF(
+                name: $user.user.name,
+                nameIsValid: user.nameIsValid
+            )
             Button(action: registerUser) {
                 HStack {
                     Image(systemName: "checkmark.circle")
                     Text("OK")
                 }
-                .disabled(!isValidName)
+                .disabled(!user.nameIsValid)
             }
         }
     }
     
     private func registerUser() {
-        if isValidName {
-            user.name = name
-            user.isRegister.toggle()
+        user.user.isRegistered.toggle()
+        DataManager.shared.save(user: user.user)
+    }
+}
+
+struct UserNameTF: View {
+    
+    @Binding var name: String
+    var nameIsValid = false
+    
+    var body: some View {
+        ZStack {
+            TextField("Enter your name...", text: $name)
+                .multilineTextAlignment(.center)
+            HStack {
+                Spacer()
+                Text(name.count.formatted())
+                    .font(.callout)
+                    .foregroundColor(nameIsValid ? .green : .red)
+                    .padding([.top, .trailing])
+            }
+            .padding(.bottom)
         }
     }
 }
